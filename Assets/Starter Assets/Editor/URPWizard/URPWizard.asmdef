@@ -2,9 +2,7 @@
     "name": "URPWizard",
     "rootNamespace": "",
     "references": [
-        "Unity.RenderPipelines.Universal.Runtime",
-        "Unity.Cinemachine",
-        "Unity.Cinemachine.Editor"
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [
         "Editor"
