@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FishNet.Object;
 using FishNet.Example.Scened;
+using Cinemachine;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -73,7 +74,8 @@ namespace ControllerAssets
 #endif
 		private CharacterController _controller;
 		private PlayerInputs _input;
-		private GameObject _mainCamera;
+		[SerializeField] private Camera _mainCamera;
+		[SerializeField] private Cinemachine.CinemachineVirtualCamera _vcam;
 
 		private const float _threshold = 0.01f;
 
@@ -89,23 +91,29 @@ namespace ControllerAssets
 			}
 		}
 
-		// private void Awake()
-		// {
-		// 	// get a reference to our main camera
-		// 	if (_mainCamera == null)
-		// 	{
-		// 		_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-		// 	}
-		// }
-
 		
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			if (base.IsOwner) {
-				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			} else {
-				enabled = false;
+
+			if (IsOwner)
+			{
+				_mainCamera.enabled = true;
+				if (_mainCamera.TryGetComponent(out AudioListener listener))
+					listener.enabled = true;
+
+				_vcam.Priority = 10; // Make sure it's active
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+			}
+			else
+			{
+				_mainCamera.enabled = false;
+				if (_mainCamera.TryGetComponent(out AudioListener listener))
+					listener.enabled = false;
+
+				_vcam.Priority = 0; // Lower than default, so it's ignored
+				enabled = false; // Disable input + movement for non-owners
 			}
 		}
 

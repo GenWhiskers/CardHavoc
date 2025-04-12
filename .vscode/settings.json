@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Card Havoc.sln"
+    "dotnet.defaultSolution": "CardHavoc.sln"
 }
