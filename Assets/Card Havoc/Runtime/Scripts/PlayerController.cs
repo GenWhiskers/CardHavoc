@@ -237,7 +237,6 @@ namespace StarterAssets
 
 				// if we are not grounded, do not jump
 				_input.jump = false;
-				Debug.Log("YOU AINT GROUNDED");
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)

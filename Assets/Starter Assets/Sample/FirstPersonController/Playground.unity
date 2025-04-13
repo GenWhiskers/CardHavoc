@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 2136713896}
   m_Layer: 0
   m_Name: World Camrea
-  m_TagString: Untagged
+  m_TagString: WorldCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

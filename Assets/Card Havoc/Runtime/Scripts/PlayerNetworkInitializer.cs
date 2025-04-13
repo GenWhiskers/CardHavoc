@@ -21,7 +21,7 @@ public class PlayerNetworkInitializer : NetworkBehaviour
 
         if (IsOwner)
         {
-            GameObject worldCam = GameObject.Find("WorldCamera");
+            GameObject worldCam = GameObject.FindGameObjectWithTag("WorldCamera");
 
             // Local player setup
             if (mainCamera != null)
@@ -35,6 +35,7 @@ public class PlayerNetworkInitializer : NetworkBehaviour
 
             foreach (var script in localOnlyScripts)
             {
+                Debug.Log("script active " + script);
                 if (script != null)
                     script.enabled = true;
             }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2639527119757311973}
   - component: {fileID: 6895005556006658624}
   - component: {fileID: 1970820668585697556}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 2049047627827282795}
   - component: {fileID: 1978123417207327514}
   - component: {fileID: 1578327368075319917}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8689486025254797830}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CamreaRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 6682623740609244450}
   - component: {fileID: 8599048887066287933}
   - component: {fileID: 1788089873142996545}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FPSGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 4982435025292959029}
   - component: {fileID: 3803712913110254215}
   - component: {fileID: 4115038079510698999}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,6 +547,10 @@ PrefabInstance:
     - target: {fileID: 8762286023885395077, guid: 8ad216d1fef970241a27c2ec617828fa, type: 3}
       propertyPath: m_Name
       value: VirturalCamrea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762286023885395077, guid: 8ad216d1fef970241a27c2ec617828fa, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 8ad216d1fef970241a27c2ec617828fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -732,6 +736,10 @@ PrefabInstance:
     - target: {fileID: 9005220659476430823, guid: a75b93b6bfef4184391ec1de62b45b78, type: 3}
       propertyPath: m_Name
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005220659476430823, guid: a75b93b6bfef4184391ec1de62b45b78, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
