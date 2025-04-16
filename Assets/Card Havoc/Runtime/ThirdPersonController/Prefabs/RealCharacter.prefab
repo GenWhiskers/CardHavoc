@@ -242,13 +242,13 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   mainCamera: {fileID: 3056399963420048452}
   virtualCamera: {fileID: 8259712272484645212}
-  fpsGraphics: {fileID: 0}
-  thirdPersonGraphics: {fileID: 0}
+  fpsGraphics: {fileID: 6686655613252173822}
+  thirdPersonGraphics: {fileID: 6686655613252173822}
   localOnlyScripts:
   - {fileID: 7636409631765832329}
   - {fileID: 3149486815946932313}
   - {fileID: 1365429500449861663}
-  - {fileID: 0}
+  - {fileID: 7075430810237861484}
   - {fileID: 2595930676993228193}
   - {fileID: 3014197719008306385}
 --- !u!114 &7075430810237861484
@@ -285,6 +285,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  animationController: {fileID: 3680001145706374780}
 --- !u!1 &6005969611022641167
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,10 +915,39 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 8338988566280778634, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3680001145706374780}
   m_SourcePrefab: {fileID: 100100000, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
+--- !u!95 &99142561033748286 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6982812146204527121, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
+  m_PrefabInstance: {fileID: 7027822159192143151}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6305063078257239364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
   m_PrefabInstance: {fileID: 7027822159192143151}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6686655613252173822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4416926081852918481, guid: df786ec34e98aea4a8fd976562eb3700, type: 3}
+  m_PrefabInstance: {fileID: 7027822159192143151}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3680001145706374780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686655613252173822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46195e44b78e253429aa61d4bb3e5385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 912099040278736733}
+  _networkObjectCache: {fileID: 0}
+  animator: {fileID: 99142561033748286}
