@@ -51,6 +51,11 @@ public class PlayerAnimationController : NetworkBehaviour
     {
         if (IsOwner) return; // Owner already set their own animator
 
+        if (animator == null)
+        {
+            Debug.LogWarning("Remote animator is null!");
+            return;
+        }
         animator.SetFloat(speedHash, speed);
         animator.SetFloat("MotionSpeed", inputMagnitude);
         animator.SetBool(groundedHash, grounded);
