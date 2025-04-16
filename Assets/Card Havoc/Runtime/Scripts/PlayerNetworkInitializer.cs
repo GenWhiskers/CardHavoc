@@ -34,26 +34,9 @@ public class PlayerNetworkInitializer : NetworkBehaviour
                 worldCam.SetActive(false);
 
             // Local player setup
-            // if (virtualCamera != null)
-            //     virtualCamera.SetActive(true);
-
-            // if (mainCamera != null)
-            //     mainCamera.SetActive(true);
-            //     mainCamera.tag = "MainCamera";
-
-            // if (fpsGraphics != null)
-            //     fpsGraphics.SetActive(true);
-
-            if (thirdPersonGraphics != null)
-                thirdPersonGraphics.SetActive(false);
-                Debug.Log("SET FALSE");
-
-            // foreach (var script in localOnlyScripts)
-            // {
-            //     Debug.Log("script active " + script);
-            //     if (script != null)
-            //         script.enabled = true;
-            // }
+            // if (thirdPersonGraphics != null)
+            //     thirdPersonGraphics.SetActive(false);
+            //     Debug.Log("SET FALSE");
 
         }
         else
