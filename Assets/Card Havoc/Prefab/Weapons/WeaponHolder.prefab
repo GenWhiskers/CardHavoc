@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 3558175095553287944}
   aimSpeed: 10
-  bulletPrefab: {fileID: 5341742223406746680, guid: a0de7f18414d65547b62ecd3a1f257e0, type: 3}
+  bulletPrefab: {fileID: 5341742223406746680, guid: a9b82de5e0b12a64295ea589dd9aa4f5, type: 3}
   firePoint: {fileID: 6960594880463824598}
   fireRate: 0.2
 --- !u!1001 &9208736441355415119
@@ -58,6 +58,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5663308699007960356}
     m_Modifications:
+    - target: {fileID: 2257712071760005273, guid: 8ac5dca2eddf1a0478b8d2608cceea6f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2257712071760005273, guid: 8ac5dca2eddf1a0478b8d2608cceea6f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2257712071760005273, guid: 8ac5dca2eddf1a0478b8d2608cceea6f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 4859047277093063568, guid: 8ac5dca2eddf1a0478b8d2608cceea6f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.654
