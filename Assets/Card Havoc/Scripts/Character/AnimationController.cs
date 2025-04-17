@@ -1,66 +1,44 @@
 ﻿using UnityEngine;
-using FishNet.Object;
 
-public class PlayerAnimationController : NetworkBehaviour
+public class PlayerAnimationController : MonoBehaviour
 {
-    [Header("Animator Setup")]
+    [Header("References")]
     [SerializeField] private Animator animator;
 
-    // Animator parameter hashes
-    private int speedHash;
-    private int groundedHash;
-    private int jumpHash;
-    private int freeFallHash;
-
+     // Local cache to avoid creating strings every frame
+    private int hashMoveX = Animator.StringToHash("Speed");
+    private int hashMoveZ = Animator.StringToHash("Speed");
+    private int hashIsRunning = Animator.StringToHash("Speed");
+    private int hashIsJumping = Animator.StringToHash("Jump");
+    private int hashIsGrounded = Animator.StringToHash("Grounded");
+    
     private void Awake()
     {
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
-
-        speedHash = Animator.StringToHash("Speed");
-        groundedHash = Animator.StringToHash("Grounded");
-        jumpHash = Animator.StringToHash("Jump");
-        freeFallHash = Animator.StringToHash("FreeFall");
     }
 
     #region Local Player Updates
 
-    /// <summary>
-    /// Called by PlayerController to update local animation state.
-    /// </summary>
-    public void UpdateLocalAnimations(float speed, float inputMagnitude, bool grounded, bool jumping, bool falling)
+    // Called by local player
+    public void UpdateLocalAnimations(float moveX, float moveZ, bool isRunning, bool isJumping, bool isGrounded)
     {
-        if (!IsOwner) return;
-
-        animator.SetFloat(speedHash, speed);
-        animator.SetFloat("MotionSpeed", inputMagnitude);
-        animator.SetBool(groundedHash, grounded);
-        animator.SetBool(jumpHash, jumping);
-        animator.SetBool(freeFallHash, falling);
-
-        // Also sync to remote clients
-        UpdateRemoteAnimations(speed, inputMagnitude, grounded, jumping, falling);
+        animator.SetFloat(hashMoveX, moveX);
+        animator.SetFloat("MotionSpeed", moveZ);
+        // animator.SetBool(hashIsRunning, isRunning);
+        animator.SetBool(hashIsJumping, isJumping);
+        animator.SetBool(hashIsGrounded, isGrounded);
     }
 
-    #endregion
-
-    #region Remote Animation Sync
-
-    [ObserversRpc]
-    private void UpdateRemoteAnimations(float speed, float inputMagnitude, bool grounded, bool jumping, bool falling)
+    // Called by other players via RPC
+    public void UpdateRemoteAnimations(float moveX, float moveZ, bool isRunning, bool isJumping, bool isGrounded)
     {
-        if (IsOwner) return; // Owner already set their own animator
-
-        if (animator == null)
-        {
-            Debug.LogWarning("Remote animator is null!");
-            return;
-        }
-        animator.SetFloat(speedHash, speed);
-        animator.SetFloat("MotionSpeed", inputMagnitude);
-        animator.SetBool(groundedHash, grounded);
-        animator.SetBool(jumpHash, jumping);
-        animator.SetBool(freeFallHash, falling);
+        // Same implementation, but called via network
+        animator.SetFloat(hashMoveX, moveX);
+        animator.SetFloat("MotionSpeed", moveZ);
+        // animator.SetBool(hashIsRunning, isRunning);
+        animator.SetBool(hashIsJumping, isJumping);
+        animator.SetBool(hashIsGrounded, isGrounded);
     }
 
     #endregion

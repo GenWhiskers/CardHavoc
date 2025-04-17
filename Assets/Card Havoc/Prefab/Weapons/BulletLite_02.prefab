@@ -157,8 +157,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8322b56916aeee48856c51800294f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   speed: 3
   lifetime: 5
+  damage: 25
   maxBounces: 1
 --- !u!136 &1564496455266852707
 CapsuleCollider:

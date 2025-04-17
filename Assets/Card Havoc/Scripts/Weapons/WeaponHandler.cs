@@ -1,6 +1,8 @@
 using UnityEngine;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 
-public class WeaponHandler : MonoBehaviour
+public class WeaponHandler : NetworkBehaviour
 {
     [Header("References")]
     public GameObject currentWeapon; // Assigned manually or default weapon at start
@@ -95,6 +97,19 @@ public class WeaponHandler : MonoBehaviour
             return;
         }
 
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        ShootServerRpc(firePoint.position, firePoint.rotation);
+    }
+
+    [ServerRpc]
+    void ShootServerRpc(Vector3 position, Quaternion rotation)
+    {
+        if (bulletPrefab == null)
+        {
+            Debug.LogWarning("Bullet prefab not assigned.");
+            return;
+        }
+
+        GameObject bullet = Instantiate(bulletPrefab, position, rotation);
+        Spawn(bullet); // FishNet spawns and syncs it
     }
 }

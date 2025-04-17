@@ -3,7 +3,7 @@
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
+namespace PlayerAssets
 {
     [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM
@@ -209,5 +209,10 @@ namespace StarterAssets
             if (lfAngle > 360f) lfAngle -= 360f;
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
+
+        public Vector2 InputMove => _input.move;
+        public bool IsSprinting => _input.sprint;
+        public float VerticalVelocity => _verticalVelocity;
+        public bool IsJumping => _input.jump;
     }
 }

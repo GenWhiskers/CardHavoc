@@ -1,62 +1,58 @@
 using UnityEngine;
+using FishNet.Object;
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-public class BulletProjectile : MonoBehaviour
+public class BulletProjectile : NetworkBehaviour
 {
-    [Header("Settings")]
     public float speed = 50f;
     public float lifetime = 5f;
+    public float damage = 25f;
     public int maxBounces = 0;
 
-    [Header("Ignore Collision")]
-    public string ignoreTag = "Gun";              // Optional: tag to ignore
-    public LayerMask ignoreLayers;                // Optional: layers to ignore
-
-    [Header("Hit Detection")]
-    public string playerTag = "Player";           // Tag used to identify player targets
-
     private Rigidbody rb;
-    private int bounceCount = 0;
+    private int bounceCount;
 
-    void Start()
+    public override void OnStartServer()
     {
+        base.OnStartServer();
         rb = GetComponent<Rigidbody>();
         rb.linearVelocity = transform.forward * speed;
-        Destroy(gameObject, lifetime); // Just in case it never hits anything
+
+        Destroy(gameObject, lifetime); // Server-only cleanup
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        GameObject hitObject = collision.gameObject;
-        // Ignore gun by layer
-        if (((1 << hitObject.layer) & ignoreLayers) != 0)
-            return;
+        if (!IsServer) return; // Only server handles collision logic
 
-        // If hit a player → despawn
-        if (hitObject.CompareTag(playerTag))
+        GameObject hit = collision.gameObject;
+
+        if (hit.CompareTag("Player"))
         {
-            PlayerHealth health = hitObject.GetComponent<PlayerHealth>();
+            PlayerHealth health = hit.GetComponent<PlayerHealth>();
             if (health != null)
             {
-                health.TakeDamage(25f);
+                health.TakeDamage(damage); // Server-authoritative
             }
 
-            Destroy(gameObject);
+            Despawn(); // Despawn bullet
             return;
         }
 
-        // Bounce logic
         if (bounceCount < maxBounces)
         {
-            ContactPoint contact = collision.contacts[0];
             Vector3 reflectDir = Vector3.Reflect(rb.linearVelocity.normalized, collision.contacts[0].normal);
-            transform.position = contact.point + contact.normal * 0.01f;
+            transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.01f;
             rb.linearVelocity = reflectDir * speed;
             bounceCount++;
             return;
         }
 
-        // Default: despawn on non-player impact
-        Destroy(gameObject);
+        Despawn();
+    }
+
+    void Despawn()
+    {
+        base.Despawn(gameObject); // FishNet-safe destroy
     }
 }
