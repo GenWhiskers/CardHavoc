@@ -29,18 +29,6 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetBool(hashIsJumping, isJumping);
         animator.SetBool(hashIsGrounded, isGrounded);
     }
-
-    // Called by other players via RPC
-    public void UpdateRemoteAnimations(float moveX, float moveZ, bool isRunning, bool isJumping, bool isGrounded)
-    {
-        // Same implementation, but called via network
-        animator.SetFloat(hashMoveX, moveX);
-        animator.SetFloat("MotionSpeed", moveZ);
-        // animator.SetBool(hashIsRunning, isRunning);
-        animator.SetBool(hashIsJumping, isJumping);
-        animator.SetBool(hashIsGrounded, isGrounded);
-    }
-
     #endregion
 
     #region Animation Events
