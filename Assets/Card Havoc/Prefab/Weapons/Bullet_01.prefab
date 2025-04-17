@@ -49,11 +49,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   lifetime: 5
-  maxBounces: 1
+  maxBounces: 5
   ignoreTag: Gun
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 128
+  playerTag: Player
 --- !u!135 &960407911277708809
 SphereCollider:
   m_ObjectHideFlags: 0

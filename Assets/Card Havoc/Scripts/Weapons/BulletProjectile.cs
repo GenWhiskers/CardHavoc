@@ -10,7 +10,10 @@ public class BulletProjectile : MonoBehaviour
 
     [Header("Ignore Collision")]
     public string ignoreTag = "Gun";              // Optional: tag to ignore
-    public LayerMask ignoreLayers;                // Optional: layer mask to ignore
+    public LayerMask ignoreLayers;                // Optional: layers to ignore
+
+    [Header("Hit Detection")]
+    public string playerTag = "Player";           // Tag used to identify player targets
 
     private Rigidbody rb;
     private int bounceCount = 0;
@@ -19,30 +22,41 @@ public class BulletProjectile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.linearVelocity = transform.forward * speed;
-
-        Destroy(gameObject, lifetime);
+        Destroy(gameObject, lifetime); // Just in case it never hits anything
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        // Check for tag
-        if (!string.IsNullOrEmpty(ignoreTag) && collision.gameObject.CompareTag(ignoreTag))
+        GameObject hitObject = collision.gameObject;
+        // Ignore gun by layer
+        if (((1 << hitObject.layer) & ignoreLayers) != 0)
             return;
 
-        // Check for layer
-        if (((1 << collision.gameObject.layer) & ignoreLayers) != 0)
+        // If hit a player → despawn
+        if (hitObject.CompareTag(playerTag))
+        {
+            PlayerHealth health = hitObject.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.TakeDamage(25f);
+            }
+
+            Destroy(gameObject);
             return;
+        }
 
         // Bounce logic
         if (bounceCount < maxBounces)
         {
+            ContactPoint contact = collision.contacts[0];
             Vector3 reflectDir = Vector3.Reflect(rb.linearVelocity.normalized, collision.contacts[0].normal);
+            transform.position = contact.point + contact.normal * 0.01f;
             rb.linearVelocity = reflectDir * speed;
             bounceCount++;
             return;
         }
 
-        // Despawn
+        // Default: despawn on non-player impact
         Destroy(gameObject);
     }
 }
