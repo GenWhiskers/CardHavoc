@@ -27,11 +27,8 @@ public class PlayerNetworkInitializer : NetworkBehaviour
             GameObject worldCam = GameObject.FindGameObjectWithTag("WorldCamera");
             if (worldCam != null)
                 worldCam.SetActive(false);
-
-            // Local player setup
-            // if (thirdPersonGraphics != null)
-            //     thirdPersonGraphics.SetActive(false);
-            //     Debug.Log("SET FALSE");
+            
+            UIManager.Instance?.SpawnHUD();
 
         }
         else
@@ -52,6 +49,16 @@ public class PlayerNetworkInitializer : NetworkBehaviour
                 if (script != null)
                     script.enabled = false;
             }
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (IsOwner)
+        {
+            UIManager.Instance?.DestroyHUD();
         }
     }
 

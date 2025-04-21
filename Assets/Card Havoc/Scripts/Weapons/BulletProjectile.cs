@@ -23,7 +23,7 @@ public class BulletProjectile : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!IsServer) return; // Only server handles collision logic
+        if (!IsServerStarted) return; // Only server handles collision logic
 
         GameObject hit = collision.gameObject;
 
@@ -53,6 +53,6 @@ public class BulletProjectile : NetworkBehaviour
 
     void Despawn()
     {
-        base.Despawn(gameObject); // FishNet-safe destroy
+        Despawn(gameObject); // FishNet-safe destroy
     }
 }

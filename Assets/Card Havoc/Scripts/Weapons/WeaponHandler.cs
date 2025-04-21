@@ -30,6 +30,7 @@ public class WeaponHandler : NetworkBehaviour
     {
         HandleADS();
         HandleShoot();
+        AimGunTowardCrosshair();
     }
 
     void HandleADS()
@@ -67,7 +68,6 @@ public class WeaponHandler : NetworkBehaviour
         currentWeapon.SetActive(true);
 
         hipPosition = currentWeapon.transform.Find("HipPosition");
-        adsPosition = currentWeapon.transform.Find("ADSPosition");
 
         if (hipPosition == null || adsPosition == null)
         {
@@ -77,7 +77,6 @@ public class WeaponHandler : NetworkBehaviour
 
         // Snap immediately to hip
         currentWeapon.transform.localPosition = hipPosition.localPosition;
-        currentWeapon.transform.localRotation = hipPosition.localRotation;
     }
 
     void HandleShoot()
@@ -91,12 +90,19 @@ public class WeaponHandler : NetworkBehaviour
 
     void Fire()
     {
-        if (bulletPrefab == null || firePoint == null)
-        {
-            Debug.LogWarning("Missing bulletPrefab or firePoint reference.");
-            return;
-        }
+        // Camera cam = Camera.main;
+        // Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        // Vector3 targetPoint;
 
+        // if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        //     targetPoint = hit.point;
+        // else
+        //     targetPoint = ray.origin + ray.direction * 100f;
+
+        // Vector3 shootDirection = (targetPoint - firePoint.position).normalized;
+        // Quaternion rotation = Quaternion.LookRotation(shootDirection);
+
+        // Send to server for spawning
         ShootServerRpc(firePoint.position, firePoint.rotation);
     }
 
@@ -111,5 +117,30 @@ public class WeaponHandler : NetworkBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, position, rotation);
         Spawn(bullet); // FishNet spawns and syncs it
+    }
+
+    void AimGunTowardCrosshair()
+    {
+        if (currentWeapon == null) return;
+
+        Camera cam = Camera.main;
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Vector3 targetPoint;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            targetPoint = hit.point;
+        else
+            targetPoint = ray.origin + ray.direction * 100f;
+
+        // Rotate weapon root toward the aim point
+        Vector3 lookDirection = targetPoint - currentWeapon.transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+        lookRotation *= Quaternion.Euler(180f, 0f, 180f); //TODO: Get the gun to rotate properly 
+
+        currentWeapon.transform.rotation = Quaternion.Slerp(
+            currentWeapon.transform.rotation,
+            lookRotation,
+            Time.deltaTime * aimSpeed
+        );
     }
 }
