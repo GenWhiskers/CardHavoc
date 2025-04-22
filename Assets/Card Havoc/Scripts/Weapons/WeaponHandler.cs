@@ -19,6 +19,9 @@ public class WeaponHandler : NetworkBehaviour
     public Transform firePoint;
     public float fireRate = 0.2f;
 
+    [SerializeField] public Transform debugTransform;
+    [SerializeField] public LayerMask aimColliderLayerMask = new LayerMask();
+
     private float nextFireTime;
 
     void Start()
@@ -28,34 +31,8 @@ public class WeaponHandler : NetworkBehaviour
 
     void Update()
     {
-        HandleADS();
         HandleShoot();
         AimGunTowardCrosshair();
-    }
-
-    void HandleADS()
-    {
-        if (Input.GetMouseButtonDown(1))
-            isAiming = true;
-        if (Input.GetMouseButtonUp(1))
-            isAiming = false;
-
-        if (currentWeapon == null || hipPosition == null || adsPosition == null)
-            return;
-
-        Transform target = isAiming ? adsPosition : hipPosition;
-
-        currentWeapon.transform.localPosition = Vector3.Lerp(
-            currentWeapon.transform.localPosition,
-            target.localPosition,
-            Time.deltaTime * aimSpeed
-        );
-
-        currentWeapon.transform.localRotation = Quaternion.Lerp(
-            currentWeapon.transform.localRotation,
-            target.localRotation,
-            Time.deltaTime * aimSpeed
-        );
     }
 
     public void EquipWeapon(GameObject newWeapon)
@@ -90,18 +67,6 @@ public class WeaponHandler : NetworkBehaviour
 
     void Fire()
     {
-        // Camera cam = Camera.main;
-        // Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        // Vector3 targetPoint;
-
-        // if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-        //     targetPoint = hit.point;
-        // else
-        //     targetPoint = ray.origin + ray.direction * 100f;
-
-        // Vector3 shootDirection = (targetPoint - firePoint.position).normalized;
-        // Quaternion rotation = Quaternion.LookRotation(shootDirection);
-
         // Send to server for spawning
         ShootServerRpc(firePoint.position, firePoint.rotation);
     }
@@ -123,20 +88,20 @@ public class WeaponHandler : NetworkBehaviour
     {
         if (currentWeapon == null) return;
 
-        Camera cam = Camera.main;
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Vector3 targetPoint;
+        Vector3 targetPoint = Vector3.zero;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
             targetPoint = hit.point;
-        else
-            targetPoint = ray.origin + ray.direction * 100f;
+            //debugTransform.position = hit.point; //Turn on when you need to debug where player is looking
 
-        // Rotate weapon root toward the aim point
+
+        // Rotates gun to crosshair
         Vector3 lookDirection = targetPoint - currentWeapon.transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        lookRotation *= Quaternion.Euler(180f, 0f, 180f); //TODO: Get the gun to rotate properly 
-
+        lookRotation *= Quaternion.Euler(0f, 90f, 0f); 
         currentWeapon.transform.rotation = Quaternion.Slerp(
             currentWeapon.transform.rotation,
             lookRotation,
