@@ -95,7 +95,7 @@ public class WeaponHandler : NetworkBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
             targetPoint = hit.point;
-            //debugTransform.position = hit.point; //Turn on when you need to debug where player is looking
+            debugTransform.position = hit.point; //Turn on when you need to debug where player is looking
 
 
         // Rotates gun to crosshair

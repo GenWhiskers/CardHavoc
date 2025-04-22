@@ -151,7 +151,7 @@ namespace PlayerAssets
 
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            animationController.UpdateLocalAnimations(_animationBlend, inputMagnitude, Grounded, false, false);
+            animationController.UpdateLocalAnimations(_animationBlend, inputMagnitude, false, !Grounded, Grounded);
         }
 
         private void JumpAndGravity()
