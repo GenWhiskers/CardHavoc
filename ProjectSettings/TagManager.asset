@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - WorldCamera
   - PlayerHUD
+  - Bullet
   layers:
   - Default
   - TransparentFX

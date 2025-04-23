@@ -135,8 +135,8 @@ namespace PlayerAssets
                 _speed = targetSpeed;
             }
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+            // _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+            // if (_animationBlend < 0.01f) _animationBlend = 0f;
 
             Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
@@ -151,7 +151,7 @@ namespace PlayerAssets
 
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            animationController.UpdateLocalAnimations(_animationBlend, inputMagnitude, false, !Grounded, Grounded);
+            //animationController.UpdateLocalAnimations(_animationBlend, inputMagnitude, false, !Grounded, Grounded); //Turn on for player w/ animations
         }
 
         private void JumpAndGravity()
@@ -200,7 +200,7 @@ namespace PlayerAssets
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
 
-            animationController.UpdateLocalAnimations(_animationBlend, _input.move.magnitude, Grounded, isJumping, isFalling);
+            //animationController.UpdateLocalAnimations(_animationBlend, _input.move.magnitude, Grounded, isJumping, isFalling);
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

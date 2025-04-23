@@ -7,10 +7,6 @@ public class WeaponHandler : NetworkBehaviour
     [Header("References")]
     public GameObject currentWeapon; // Assigned manually or default weapon at start
 
-    private Transform hipPosition;
-    private Transform adsPosition;
-    private bool isAiming;
-
     [Header("ADS Settings")]
     public float aimSpeed = 10f;
 
@@ -24,36 +20,10 @@ public class WeaponHandler : NetworkBehaviour
 
     private float nextFireTime;
 
-    void Start()
-    {
-        EquipWeapon(currentWeapon);
-    }
-
     void Update()
     {
         HandleShoot();
         AimGunTowardCrosshair();
-    }
-
-    public void EquipWeapon(GameObject newWeapon)
-    {
-        // Disable old weapon
-        if (currentWeapon != null)
-            currentWeapon.SetActive(false);
-
-        currentWeapon = newWeapon;
-        currentWeapon.SetActive(true);
-
-        hipPosition = currentWeapon.transform.Find("HipPosition");
-
-        if (hipPosition == null || adsPosition == null)
-        {
-            Debug.LogWarning("Weapon is missing HipPosition or ADSPosition!");
-            return;
-        }
-
-        // Snap immediately to hip
-        currentWeapon.transform.localPosition = hipPosition.localPosition;
     }
 
     void HandleShoot()

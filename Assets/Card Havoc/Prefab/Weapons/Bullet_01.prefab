@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1995317011933473730}
   m_Layer: 0
   m_Name: Bullet_01
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,10 +52,10 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4468571048300997335}
   _networkObjectCache: {fileID: 4468571048300997335}
-  speed: 3
+  speed: 20
   lifetime: 5
-  damage: 25
-  maxBounces: 5
+  damage: 10
+  maxBounces: 3
 --- !u!135 &960407911277708809
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1012138156991629427}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

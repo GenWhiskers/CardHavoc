@@ -1,5 +1,6 @@
 using UnityEngine;
 using FishNet.Object;
+using UnityEditor;
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class BulletProjectile : NetworkBehaviour
@@ -11,6 +12,7 @@ public class BulletProjectile : NetworkBehaviour
 
     private Rigidbody rb;
     private int bounceCount;
+    private Vector3 lastVelocity;
 
     public override void OnStartServer()
     {
@@ -21,11 +23,21 @@ public class BulletProjectile : NetworkBehaviour
         Destroy(gameObject, lifetime); // Server-only cleanup
     }
 
+    void LateUpdate()
+    {
+        lastVelocity = rb.linearVelocity;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (!IsServerStarted) return; // Only server handles collision logic
 
         GameObject hit = collision.gameObject;
+
+        
+        if (hit.CompareTag("Bullet")) {
+            return;
+        }
 
         if (hit.CompareTag("Player"))
         {
@@ -41,9 +53,12 @@ public class BulletProjectile : NetworkBehaviour
 
         if (bounceCount < maxBounces)
         {
-            Vector3 reflectDir = Vector3.Reflect(rb.linearVelocity.normalized, collision.contacts[0].normal);
-            transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.01f;
-            rb.linearVelocity = reflectDir * speed;
+            // Bounces the bullet
+            Vector3 reflectDir = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+            float newSpeed = lastVelocity.magnitude * 0.8f; //How much speed is retained
+            newSpeed = Mathf.Max(newSpeed, 3f); //Minimum speed after bounce to stop sticking
+            transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.1f;
+            rb.linearVelocity = reflectDir * Mathf.Max(lastVelocity.magnitude, 0);
             bounceCount++;
             return;
         }
