@@ -18,12 +18,27 @@ public class WeaponHandler : NetworkBehaviour
     [SerializeField] public Transform debugTransform;
     [SerializeField] public LayerMask aimColliderLayerMask = new LayerMask();
 
+    private Quaternion targetRotation;
+
     private float nextFireTime;
 
     void Update()
     {
-        HandleShoot();
-        AimGunTowardCrosshair();
+        if (IsOwner)
+        {
+            // Local player calculates aim
+            HandleShoot();
+            AimGunTowardCrosshair();
+        }
+        else
+        {
+            // Remote players smoothly move to the target rotation
+            currentWeapon.transform.rotation = Quaternion.Slerp(
+                currentWeapon.transform.rotation,
+                targetRotation,
+                Time.deltaTime * aimSpeed
+            );
+        }
     }
 
     void HandleShoot()
@@ -77,5 +92,25 @@ public class WeaponHandler : NetworkBehaviour
             lookRotation,
             Time.deltaTime * aimSpeed
         );
+
+        if (Time.frameCount % 3 == 0) // Every 3rd frame
+        {
+            // First send to server
+            UpdateWeaponRotationServerRpc(lookRotation);
+        }
+    }
+
+     // Server RPC
+    [ServerRpc]
+    private void UpdateWeaponRotationServerRpc(Quaternion rotation)
+    {
+        // Then broadcast to all clients
+        UpdateWeaponRotationObserversRpc(rotation);
+    }
+
+    [ObserversRpc(ExcludeOwner = true)]
+    private void UpdateWeaponRotationObserversRpc(Quaternion rotation)
+    {
+        targetRotation = rotation;
     }
 }

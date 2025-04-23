@@ -25,6 +25,7 @@ public class BulletProjectile : NetworkBehaviour
 
     void LateUpdate()
     {
+         if (!IsServerStarted) return;
         lastVelocity = rb.linearVelocity;
     }
 
