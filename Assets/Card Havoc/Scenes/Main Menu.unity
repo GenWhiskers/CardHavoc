@@ -722,6 +722,7 @@ GameObject:
   - component: {fileID: 1145949758}
   - component: {fileID: 1145949757}
   - component: {fileID: 1145949756}
+  - component: {fileID: 1145949759}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -771,13 +772,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145949755}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 514.162, y: 272.52856, z: -0.091060705}
+  m_LocalRotation: {x: -0.018307261, y: 0.010230253, z: -0.00016015473, w: -0.99978006}
+  m_LocalPosition: {x: 535.07587, y: 271.8969, z: -540.63605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1145949759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145949755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b19962fe839804180bd02ce1a545f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serverBindAddress: 
+  _port: 7770
+  _maximumClients: 9001
+  _peerToPeer: 1
+  _clientAddress: 
 --- !u!1 &1259647304
 GameObject:
   m_ObjectHideFlags: 0
